@@ -70,9 +70,9 @@ const RuleList = withErrorBoundary(
     // Trigger data refresh only when the RULE_LIST_POLL_INTERVAL_MS elapsed since the previous load FINISHED
     const [_, fetchRules] = useAsyncFn(async () => {
       if (!loading) {
-        await dispatch(fetchAllPromAndRulerRulesAction(false, { limitAlerts }));
+        await dispatch(fetchAllPromAndRulerRulesAction(false, { limitAlerts }, filterState));
       }
-    }, [loading, limitAlerts, dispatch]);
+    }, [loading, limitAlerts, dispatch, filterState]);
 
     useEffect(() => {
       trackRuleListNavigation().catch(() => {});
@@ -80,7 +80,7 @@ const RuleList = withErrorBoundary(
 
     // fetch rules, then poll every RULE_LIST_POLL_INTERVAL_MS
     useEffect(() => {
-      dispatch(fetchAllPromAndRulerRulesAction(false, { limitAlerts }));
+      dispatch(fetchAllPromAndRulerRulesAction(false, { limitAlerts }, filterState));
     }, [dispatch, limitAlerts]);
     useInterval(fetchRules, RULE_LIST_POLL_INTERVAL_MS);
 
